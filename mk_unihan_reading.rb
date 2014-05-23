@@ -41,12 +41,39 @@ class JsonStore
   end
 end
 
-class TokyoCabinetStorage
+class UnihanReadingDb
+  def addRelevant(k, t, v)
+    if t == 'ZVariant'
+      ['Mandarin', 'Cantonese'].map{|str| $reading_sym[str]}.each do |target|
+        if ! self.get(k, target).nil?
+	  next
+	if ! self.get(v, target).nil?
+	  STDERR.puts("#{v}:#{target} not found"
+	end
+      end
+    end
+
+    
+  end
+end
+
+class TokyoCabinetStorage < UnihanReadingDb
   def initialize()
     require 'tokyocabinet'
     @hdb = TokyoCabinet::HDB.new
     @hdb.open('unihan_reading.hdb', TokyoCabinet::HDB::OWRITER|TokyoCabinet::HDB::OCREAT)
     @hdb.put("data_version", "1.00")
+  end
+
+  def get(key, type)
+    if type.class == String
+      t = $reading_sym[type]
+    else
+      t = type
+    end
+    return if t.nil?
+    key = key + ":" + t.to_s
+    @hdb.get(key)
   end
   def store(str, type, value)
     t = $reading_sym[type]
@@ -88,25 +115,6 @@ end
 
 @storage = []
 
-OptionParser.new do |opt|
-  opt.on('--json', "output with Json") do 
-    @storage.push JsonStore.new()
-  end
-  opt.on('--tc', "output with TokyoCabinet") do 
-    @storage.push TokyoCabinetStorage.new()
-  end
-  opt.on('--dbm', "output with DBM") do 
-    @storage.push DBMStorage.new()
-  end
-  opt.on('--stdout', "output for stdout") do 
-    @storage.push StdoutOutput.new()
-  end
-end.parse!(ARGV)
-
-if @storage.size == 0
-  @storage = [StdoutOutput.new()]
-end
-
 #STDIN.each_line do |line|
 IO.popen("lzma -dc Unihan_Readings.txt.lzma").each_line do |line|
   next if line[0] == "#"[0]
@@ -122,4 +130,9 @@ IO.popen("lzma -dc Unihan_Readings.txt.lzma").each_line do |line|
   @storage.each {|f| f.store(str, type, value) }
 end
 
+IO.popen("lzma -dc Unihan_Variants.txt.lzma").each_line do |line|
+  next if ! line.match(/^U\+([0-9A-F]+)\s+k([a-zA-Z0-9]+)\s+U\+([a-zA-Z0-9]+)/) 
+  k, t, v = [$1.hex].pack("U*"), $2, [$3.hex].pack("U*")
+  @storage.each {|s| s.addRelevant(k, v, t) }
+end
 @storage.each{|f| f.finish() }

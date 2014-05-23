@@ -8,6 +8,22 @@ $reading_sym = {
   'JapaneseOn' => 4,
   'JapaneseKun' => 5
 }
+class UnihanSymbol
+  def initialize(type = nil)
+    @sym = nil
+    self.set(type)
+  end
+  def set(type)
+    if type.class == String
+      @sym = $reading_sym[type]
+    elsif type.class == Fixnum
+      @sym = type
+    end
+  end
+  def to_s
+    return @sym
+  end
+end
 
 class UnihanReadingGetter
   def initialize()
