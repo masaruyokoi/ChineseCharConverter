@@ -3,7 +3,7 @@
 require 'json'
 require 'dbm'
 require 'optparse'
-require './unihan_include.rb'
+require './include.rb'
 
 
 class UnihanReadingDb
