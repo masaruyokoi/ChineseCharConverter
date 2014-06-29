@@ -25,9 +25,18 @@ function EncodeHTMLForm( data )
 }
 
 function changeResult(type) {
-  var data = { txt: document.f1.txt.value,
-  modifier: document.f1.modifier.value,
-  type: type, mode: 'html'};
+  // get modifier value
+  var modifier = 'none';
+  for (var i = 0; i < document.f1.modifier.length; i++) {
+    if (document.f1.modifier[i].checked) {
+      modifier = document.f1.modifier[i].value;
+      break;
+    }
+  }
+
+  var data = {
+    txt: document.f1.txt.value, modifier: modifier,
+    type: type, mode: 'html'};
 
   var xhr;
   xhr = new XMLHttpRequest();
