@@ -1,9 +1,10 @@
 #!/usr/bin/ruby
 #encoding: utf-8
 
-require './unihan_reading.rb'
+require './include.rb'
 require 'cgi'
 
+@urg = UnihanReadingGetter.new
 
 # Usage:
 #  mode=[html|json]
@@ -20,19 +21,22 @@ def output_text(type)
     exit(4)
   end
   
-  urg = UnihanReadingGetter.new
-  
-  #CGI.http_header("status" => 'OK')
-  puts "200 OK"
   puts "Content-Type: text/plain; charset=utf-8"
   puts ""
   
   txt.split(//).each do |char|
-    conv = urg.getByEachChar(char, type)
-    unless conv.nil?
-      STDOUT.write "<ruby><rb>#{char}</rb><rt>#{conv.gsub(/\s+/, '<br/>')}</rt></ruby>"
-    else
+    char = CGI.escapeHTML(char).gsub(/\n/, "<br/>\n")
+
+    if char.size != 1
       STDOUT.write char
+      next
+    end
+
+    conv = @urg.getByEachChar(char)
+    if conv.nil? || conv[1].nil?
+      STDOUT.write char
+    else
+      STDOUT.write "<ruby><rb>#{char}</rb><rt>#{conv[1].gsub(/\s+/, '<br/>')}</rt></ruby>"
     end
   end
 end
@@ -46,15 +50,14 @@ def output_json(type)
     exit(4)
   end
   
-  urg = UnihanReadingGetter.new
   
-  puts "200 OK"
+  #puts "200 OK"
   puts "Content-Type: text/plain; charset=utf-8"
   puts ""
   res = Hash.new
 
   txt.split(//).uniq.each do |char|
-    res[char] =  urg.getByEachChar(char, type)
+    res[char] =  @urg.getByEachChar(char)
   end
   puts JSON.generate(res)
 end
@@ -66,13 +69,25 @@ if false && @cgi.request_method != 'POST'
   exit(2)
 end
 
-type = $reading_sym[ @cgi['type'] ]
-if type.nil?
+t = @urg.setType(@cgi['type'])
+if t.nil?
   @cgi.out('status' => 'NOT_FOUND', 'Content-Type' => 'text/plain') {
     "type (#{@cgi['type']}) is undefined or incorrect."
   }
   exit(3)
 end
+
+modifier = @cgi['modifier']
+unless modifier.nil? and modifier != 'none'
+  m = @urg.setType(@cgi['modifier'])
+  if m.nil?
+    @cgi.out('status' => 'NOT_FOUND', 'Content-Type' => 'text/plain') {
+      "modifier (#{@cgi['modifier']}) is undefined or incorrect."
+    }
+    exit(3)
+  end
+end
+
 
 
 case @cgi['mode']

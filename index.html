@@ -1,0 +1,67 @@
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Chinese Text Pinyin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximun-scale=1" />
+<style>
+/* body, textarea { font-size: 14pt; }*/
+ruby {
+  padding-width: 1px;
+  border-width: 1px;
+  background-color: #eee;
+}
+
+</style>
+<script>
+function EncodeHTMLForm( data )
+{
+    var ps = "";
+
+    for(var k in data) {
+        ps += "&" + encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
+    }
+
+    return ps;
+}
+
+function changeResult(type) {
+  var data = { txt: document.f1.txt.value,
+  modifier: document.f1.modifier.value,
+  type: type, mode: 'html'};
+
+  var xhr;
+  xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      document.getElementById("conv_result").innerHTML = xhr.responseText;
+      document.getElementById("conv_title").innerHTML = type;
+    }
+  }
+  xhr.open("POST", "print_unihan_reading.cgi", true);
+  xhr.send(EncodeHTMLForm(data));
+}
+</script>
+</head>
+<body>
+<h1>Chinese Pinyin</h1>
+<p>Add Chinese/Cantonese Pinyin for text.</p>
+<form action="javascript:void()" name="f1">
+<p class="inputform">
+<textarea name="txt" cols="40" rows="10" style="width:80%;">
+</textarea>
+<br/>Modifier:
+<input type="radio" name="modifier" value="none" checked="yes" />none
+<input type="radio" name="modifier" value="Simplified" />Simplified
+<input type="radio" name="modifier" value="Traditional" />Traditional
+<br/>
+<input type="button" name="type" value="Cantonese" onClick="changeResult('Cantonese')" />
+<input type="button" name="type" value="Mandarin" onClick="changeResult('Mandarin')" />
+<input type="hidden" name="mode" value="html" />
+<!-- input type="submit" onClick="changeResult();"/ -->
+</p>
+</form>
+<h2 id="conv_title">Result will be shown here.</h2>
+<p style="width:80%" id="conv_result"> </p>
+</body>
+</html>
+

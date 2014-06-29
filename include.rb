@@ -1,5 +1,7 @@
 #encoding: utf-8
 require 'dbm'
+require 'tokyocabinet'
+require 'msgpack'
 
 
 class UnihanType
@@ -27,6 +29,7 @@ class UnihanType
     end
   end
   
+  
   def to_num(type = nil)
     return @sym if type.nil?
     abort if type.class != String
@@ -42,23 +45,47 @@ end
 
 class UnihanReadingGetter
   def initialize()
-    require 'tokyocabinet'
     #@db = DBM.open('unihan_reading', 0, DBM::READER)
     @db = TokyoCabinet::HDB.new()
-    @db.open('unihan.hdb', TokyoCabinet::HDB::OREADER) || abort
+    @db.open('unihan.hdb', TokyoCabinet::HDB::OREADER) || abort("cannot open unihan.db")
+    @uht = UnihanType.new
   end
 
-  def getByEachChar(char, type)
-    v = @db.get(char)
-    return nil if v.nil?
-    v = msgpack::unpack(v)
-    return nil if v.nil?
-    v = v[type]
-    return v.force_encoding('utf-8')
+  def setType(type)
+   return @type = @uht.to_num(type)
   end
 
-  def getByString(str, type)
-    return str.split(//).map{|ch| [ch, self.getByEachChar(ch, type)]}
+  def setModifier(modifier)
+    return nil if modifier.class != String
+    return @modifier = @uht.to_num(modifier + "Variant") || nil
+  end
+
+  def lookupEachChar(char, type)
+    begin
+      v = @db.get(char)
+      v = MessagePack.unpack(v)
+      return v[type].force_encoding('utf-8')
+    rescue NoMethodError, TypeError
+      return nil
+    end
+  end
+
+  def getByEachChar(char)
+    begin
+      if @modifier
+        c_ = lookupEachChar(char, @modifier)
+	#puts "modifier: #{char} -> \"#{c_}\""
+	char = c_ unless c_.nil?
+      end
+      c_ = lookupEachChar(char, @type)
+      return [char, c_]
+    rescue NoMethodError, TypeError
+      return [char, nil]
+    end
+  end
+
+  def getByString(str)
+    return str.split(//).map{|ch| self.getByEachChar(ch) + [ch] }
   end
 end
 

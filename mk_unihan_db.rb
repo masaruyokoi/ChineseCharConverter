@@ -3,6 +3,7 @@
 require 'json'
 require 'dbm'
 require 'optparse'
+require 'msgpack'
 require './include.rb'
 
 
@@ -19,9 +20,9 @@ class UnihanReadingDb
     @hdb.put("data_version", "2.00")
 
     @chars.each do |char, charval|
-      #@hdb.put(char, charval.to_msgpack)
-      jstr = JSON.generate(charval)
-      @hdb.put(char, jstr)
+      @hdb.put(char, charval.to_msgpack)
+      #jstr = JSON.generate(charval)
+      #@hdb.put(char, jstr)
 
     end
     @hdb.close()

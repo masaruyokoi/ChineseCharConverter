@@ -1,29 +1,38 @@
 #!/usr/bin/ruby
 # encoding: utf-8
-require './unihan_reading'
+require './include.rb'
 require 'optparse'
 
 
-@type = $reading_sym['Cantonese']
+uht = UnihanType.new
 @mode = :text
+
+urg = UnihanReadingGetter.new
+
+urg.setType('Cantonese')
 OptionParser.new do |opt|
   opt.on('-c', '--cantonese', 'Get Reading in Cantonese') do
-    @type = $reading_sym['Cantonese']
+    urg.setType('Cantonese')
   end
   opt.on('-m', '--mandarin', 'Get Reading in Mandarin') do
-    @type = $reading_sym['Mandarin']
+    urg.setType('Mandarin')
+  end
+  opt.on('-s', '--simplified', 'Modify to simplified Chinese') do
+    urg.setModifier('Simplified')
+  end
+  opt.on('-t', '--traditional', 'Modify to Traditional Chinese') do
+    urg.setModifier('Traditional')
   end
   opt.on('--html-ruby', 'With HTML ruby tag') do
     @mode = :html_ruby
   end
 end.parse!(ARGV)
 
-urg = UnihanReadingGetter.new
-
 STDIN.each_line do |l|
-  urg.getByString(l, @type).each do |v|
+  puts "txt: " + l
+  urg.getByString(l).each do |v|
     if @mode == :text
-      puts "#{v[0]} : #{v[1]}"
+      puts "#{v[2]} : (#{v[0]}:#{v[1]}) "
     elsif @mode == :html_ruby
       if v[1].nil?
 	STDOUT.write v[0]
