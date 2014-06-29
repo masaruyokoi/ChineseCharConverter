@@ -14,7 +14,7 @@ require 'cgi'
 #  txt=<Converting text>
 #
 
-def output_text(type)
+def output_text()
   txt = @cgi['txt']
   if txt.nil? || txt.size == 0
     @cgi.out('status' => 'NOT_FOUND') { "key 'txt' is empty" }
@@ -36,13 +36,13 @@ def output_text(type)
     if conv.nil? || conv[1].nil?
       STDOUT.write char
     else
-      STDOUT.write "<ruby><rb>#{char}</rb><rt>#{conv[1].gsub(/\s+/, '<br/>')}</rt></ruby>"
+      STDOUT.write "<ruby><rb>#{conv[0]}</rb><rt>#{conv[1].gsub(/\s+/, '<br/>')}</rt></ruby>"
     end
   end
 end
 
 
-def output_json(type)
+def output_json()
   require 'json'
   txt = @cgi['txt']
   if txt.nil? || txt.size == 0
@@ -79,10 +79,10 @@ end
 
 modifier = @cgi['modifier']
 unless modifier.nil? and modifier != 'none'
-  m = @urg.setType(@cgi['modifier'])
+  m = @urg.setModifier(modifier)
   if m.nil?
     @cgi.out('status' => 'NOT_FOUND', 'Content-Type' => 'text/plain') {
-      "modifier (#{@cgi['modifier']}) is undefined or incorrect."
+      "modifier (#{modifier}) is undefined or incorrect."
     }
     exit(3)
   end
@@ -92,9 +92,9 @@ end
 
 case @cgi['mode']
 when 'html'
-  output_text(type)
+  output_text()
 when 'json'
-  output_json(type)
+  output_json()
 else
   @cgi.out('status' => 'NOT_FOUND'){ 'mode not found';}
   exit(3)

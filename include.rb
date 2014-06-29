@@ -52,7 +52,7 @@ class UnihanReadingGetter
   end
 
   def setType(type)
-   return @type = @uht.to_num(type)
+    return @type = @uht.to_num(type)
   end
 
   def setModifier(modifier)
