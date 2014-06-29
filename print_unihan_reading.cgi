@@ -12,6 +12,7 @@ require 'cgi'
 #    json: return the key:value of text:reading
 #  type=[Cantonese|Mandarin]
 #  txt=<Converting text>
+#  modifier=[Simplified|Traditional|none]
 #
 
 def output_text()
