@@ -79,7 +79,7 @@ if t.nil?
 end
 
 modifier = @cgi['modifier']
-unless modifier.nil? and modifier != 'none'
+unless modifier.nil? || modifier == 'none'
   m = @urg.setModifier(modifier)
   if m.nil?
     @cgi.out('status' => 'NOT_FOUND', 'Content-Type' => 'text/plain') {
