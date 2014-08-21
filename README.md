@@ -2,15 +2,13 @@
 
 ## About this program
 
-This program will show you the Chinese Mandarin(Putonghua 普通话),
+This program will show you the Chinese Mandarin,
 Cantonese pronounciation and Cangjie key sequence. Supported languages and data
-are as following
+are as following.
 
-* Chinese Mandarin (Putonghua 普通话,) Pinyin 拼音 
-** Simplified 简体字
-** Traditional 繁體字/正體字
-** Also Japanese Kanji is supported
-* Cantonese Yale Pinyin
+* Chinese Mandarin (Putonghua 普通话,) Pinyin 拼音 : Simplified and Traditional 
+* Cantonese Yale Pinyin: Simplified and Traditional 
+* Simplified/Traditional character conversion (also from Japanese Kanji is supported)
 * Cangjie Traditional Chinese characters strokes. It's used to input Traditional Chinese characters.
 
 
