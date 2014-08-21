@@ -10,7 +10,7 @@ require 'cgi'
 #  mode=[html|json]
 #    html: return the html text with <ruby>
 #    json: return the key:value of text:reading
-#  type=[Cantonese|Mandarin]
+#  type=[Cantonese|Mandarin|Cangjie]
 #  txt=<Converting text>
 #  modifier=[Simplified|Traditional|none]
 #
@@ -37,7 +37,7 @@ def output_text()
     if conv.nil? || conv[1].nil?
       STDOUT.write char
     else
-      STDOUT.write "<ruby><rb>#{conv[0]}</rb><rt>#{conv[1].gsub(/\s+/, '<br/>')}</rt></ruby>"
+      STDOUT.write "<ruby><rb>#{conv[0]}</rb><rt>#{conv[1].gsub(/\s+/, '<br/>')} </rt></ruby> "
     end
   end
 end

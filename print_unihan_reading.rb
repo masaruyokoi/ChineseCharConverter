@@ -17,6 +17,10 @@ OptionParser.new do |opt|
   opt.on('-m', '--mandarin', 'Get Reading in Mandarin') do
     urg.setType('Mandarin')
   end
+  opt.on('--cangjie', 'Get CangJie') do
+    urg.setType('Cangjie')
+    urg.setModifier('Traditional')
+  end
   opt.on('-s', '--simplified', 'Modify to simplified Chinese') do
     urg.setModifier('Simplified')
   end

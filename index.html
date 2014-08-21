@@ -52,24 +52,24 @@ function changeResult(type) {
 </script>
 </head>
 <body>
-<h1>Chinese Pinyin</h1>
-<p>Add Chinese/Cantonese Pinyin for text.</p>
+<h1>Chinese Pinyin, Cantonese Yale Pinyin, Cangjie </h1>
 <form action="javascript:void()" name="f1">
 <p class="inputform">
 <textarea name="txt" cols="40" rows="10" style="width:80%;">
 </textarea>
 <br/>Character set:
-<input type="radio" name="modifier" value="none" checked="yes" />none
-<input type="radio" name="modifier" value="Simplified" />Simplified
-<input type="radio" name="modifier" value="Traditional" />Traditional
+<input type="radio" name="modifier" value="none" checked="yes" />no change
+<input type="radio" name="modifier" value="Simplified" />简体字
+<input type="radio" name="modifier" value="Traditional" />繁體字
 <br/>
-<input type="button" name="type" value="Cantonese" onClick="changeResult('Cantonese')" />
 <input type="button" name="type" value="Mandarin" onClick="changeResult('Mandarin')" />
+<input type="button" name="type" value="Cantonese" onClick="changeResult('Cantonese')" />
+<input type="button" name="type" value="Cangjie Stroke" onClick="changeResult('Cangjie')" />
 <input type="hidden" name="mode" value="html" />
 <!-- input type="submit" onClick="changeResult();"/ -->
 </p>
 </form>
-<h2 id="conv_title">Result will be shown here.</h2>
+<h2 id="conv_title">Result</h2>
 <p style="width:80%" id="conv_result"> </p>
 </body>
 </html>

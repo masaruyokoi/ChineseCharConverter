@@ -94,6 +94,12 @@ IO.popen("lzma -dc data/Unihan_Variants.txt.lzma").each_line do |line|
   next if k.nil? or v.nil?
   urdb.setVariant(k, t, v)
 end
+IO.popen("lzma -dc data/Unihan_DictionaryLikeData.txt.lzma").each_line do |line|
+  next if ! line.match(/^U\+([0-9A-F]+)\s+k([a-zA-Z0-9]+)\s+(.+)$/) 
+  k, t, v = [$1.hex].pack("U*"), $2, $3
+  next if k.nil? or v.nil?
+  urdb.setVariant(k, t, v)
+end
 urdb.finalize
 urdb.store2db
 

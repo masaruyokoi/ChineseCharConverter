@@ -10,7 +10,10 @@ class UnihanType
    Mandarin Cantonese Definition Hangul HanyuPinlu HanyuPinyin JapaneseKun
    JapaneseOn Korean Tang Vietnamese XHC1983
    CompatibilityVariant SemanticVariant SimplifiedVariant
-   SpecializedSemanticVariant TraditionalVariant ZVariant)
+   SpecializedSemanticVariant TraditionalVariant ZVariant
+   Cangjie CheungBauer CihaiT Fenn FourCornerCode Frequency GradeLevel
+   HDZRadBreak HKGlyph Phonetic TotalStrokes
+  )
   cnt = 0
   @@str2sym = Hash[*@@syms.map{|s| [s, cnt+=1]}.flatten]
 
