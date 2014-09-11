@@ -18,14 +18,14 @@ Original data is from UniHan DB of unicode.org
 
 This package includes 3 ruby scripts and 1 html file.
 
-* mk_unihan_db.rb
-** generate character conversion table from UniHan DB.
-Files of UniHan should be stored in data/ directory. 
-This program will generate unihan.hdb .
+* mk_unihan_db.rb :
+ generate character conversion table from UniHan DB.
+ Files of UniHan should be stored in data/ directory. 
+ This program will generate unihan.hdb .
+* print_unihan_reading.rb :
+ command line program to convert chinese characters. It uses unihan.hdb which generated from mk_unihan_db, input from STDIN.
 * print_unihan_reading.rb
-** command line program to convert chinese characters. It uses unihan.hdb which generated from mk_unihan_db, input from STDIN.
-* print_unihan_reading.rb
-** CGI program to convert chinese characters. It uses unihan.hdb which generated from mk_unihan_db, input from STDIN.
+ CGI program to convert chinese characters. It uses unihan.hdb which generated from mk_unihan_db, input from STDIN.
 * index.html
-** input form and kick print_unihan_reading.cgi .
+ input form and kick print_unihan_reading.cgi .
 
