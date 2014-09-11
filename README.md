@@ -29,3 +29,8 @@ This package includes 3 ruby scripts and 1 html file.
 * index.html
  input form and kick print_unihan_reading.cgi .
 
+## Sample Page
+
+Please visit http://masaru.org/ctp/
+
+
