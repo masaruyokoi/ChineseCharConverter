@@ -50,6 +50,16 @@ function changeResult(type) {
   xhr.send(EncodeHTMLForm(data));
 }
 </script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-444243-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 </head>
 <body>
 <h1>Chinese Pinyin, Cantonese, Cangjie </h1>
@@ -71,6 +81,9 @@ function changeResult(type) {
 </form>
 <h2 id="conv_title">Result</h2>
 <p style="width:80%" id="conv_result"> </p>
+<h2>About this</h2>
+<p>This page will show Chinese Pinyin spell, Cantonese Spell and Cangjie keystrokes. And convert Chinese characters to  Simplified/Traditional.</p>
+<p>You can find source code of it from <a href="https://github.com/masaruyokoi/ChineseCharConverter">https://github.com/masaruyokoi/ChineseCharConverter</a> .</p>
 </body>
 </html>
 
