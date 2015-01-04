@@ -36,8 +36,11 @@ function changeResult(type) {
 
   var data = {
     txt: document.f1.txt.value, modifier: modifier,
-    type: type, mode: 'html'};
+    type: type, mode: 'htmlbrackets'};
 
+  if (document.f1.printruby.checked) {
+    data.mode = 'htmlruby';
+  }
   var xhr;
   xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function() {
@@ -71,6 +74,7 @@ function changeResult(type) {
 <input type="radio" name="modifier" value="none" checked="yes" />no change
 <input type="radio" name="modifier" value="Simplified" />简体字
 <input type="radio" name="modifier" value="Traditional" />繁體字
+<input type="checkbox" name="printruby" value="true" />Ruby
 <br/>
 <input type="button" name="type" value="Mandarin" onClick="changeResult('Mandarin')" />
 <input type="button" name="type" value="Cantonese" onClick="changeResult('Cantonese')" />

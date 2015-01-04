@@ -2,20 +2,21 @@
 #encoding: utf-8
 
 require './include.rb'
-require 'cgi'
+require 'fcgi'
 
 @urg = UnihanReadingGetter.new
 
 # Usage:
 #  mode=[html|json]
-#    html: return the html text with <ruby>
+#    html|htmlruby: return the html text with <ruby>
+#    htmlbrackets: return the html text with brackets
 #    json: return the key:value of text:reading
 #  type=[Cantonese|Mandarin|Cangjie]
 #  txt=<Converting text>
 #  modifier=[Simplified|Traditional|none]
 #
 
-def output_text()
+def output_text(opts={})
   txt = @cgi['txt']
   if txt.nil? || txt.size == 0
     @cgi.out('status' => 'NOT_FOUND') { "key 'txt' is empty" }
@@ -36,6 +37,8 @@ def output_text()
     conv = @urg.getByEachChar(char)
     if conv.nil? || conv[1].nil?
       STDOUT.write char
+    elsif opts[:brackets] == true
+      STDOUT.write "#{conv[0]} (#{conv[1]}) "
     else
       STDOUT.write "<ruby><rb>#{conv[0]}</rb><rt>#{conv[1].gsub(/\s+/, '<br/>')} </rt></ruby> "
     end
@@ -64,7 +67,10 @@ def output_json()
 end
 
 ## main
-@cgi = CGI.new(:accept_charset => "UTF-8")
+
+#@cgi = CGI.new(:accept_charset => "UTF-8")
+FCGI.each_cgi do |cgi|
+  @cgi = cgi
 if false && @cgi.request_method != 'POST'
   @cgi.out('status' => 'METHOD_NOT_ALLOWED') {"need to be POST method"}
   exit(2)
@@ -92,8 +98,10 @@ end
 
 
 case @cgi['mode']
-when 'html'
+when 'html', 'htmlruby'
   output_text()
+when 'htmlbrackets'
+  output_text(:brackets => true)
 when 'json'
   output_json()
 else
@@ -101,5 +109,7 @@ else
   exit(3)
 end
 
+puts ""
 
 
+end
