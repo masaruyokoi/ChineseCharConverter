@@ -68,7 +68,7 @@ class UnihanReadingGetter
       v = @db.get(char)
       v = MessagePack.unpack(v)
       return v[type].force_encoding('utf-8')
-    rescue NoMethodError, TypeError
+    rescue NoMethodError, TypeError, EOFError
       return nil
     end
   end
