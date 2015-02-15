@@ -52,6 +52,11 @@ function changeResult(type) {
   xhr.open("POST", "print_unihan_reading.cgi", true);
   xhr.send(EncodeHTMLForm(data));
 }
+
+function ConvResultLarger() {
+  document.getElementById("conv_result").style.fontSize = '120%';
+}
+
 </script>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -85,6 +90,11 @@ function changeResult(type) {
 </form>
 <h2 id="conv_title">Result</h2>
 <p style="width:80%" id="conv_result"> </p>
+
+<form action="javascript:void();">
+<input type="button" name="crl" onClick="ConvResultLarger()" value="Larger" />
+</form>
+
 <h2>About this</h2>
 <p>This page will show Chinese Pinyin spell, Cantonese Spell and Cangjie keystrokes. And convert Chinese characters to  Simplified/Traditional.</p>
 <p>The data of this tool is based on <a href="http://www.unicode.org/charts/unihan.html">Unihan Database</a> from Unicode.org.</p>
