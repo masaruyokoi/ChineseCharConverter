@@ -53,8 +53,11 @@ function changeResult(type) {
   xhr.send(EncodeHTMLForm(data));
 }
 
-function ConvResultLarger() {
-  document.getElementById("conv_result").style.fontSize = '120%';
+conv_result_font_percent = 100;
+function ConvResultSize(factor) {
+  conv_result_font_percent += 50 * factor;
+  if (conv_result_font_percent < 50) return;
+  document.getElementById("conv_result").style.fontSize = conv_result_font_percent + '%';
 }
 
 </script>
@@ -92,7 +95,8 @@ function ConvResultLarger() {
 <p style="width:80%" id="conv_result"> </p>
 
 <form action="javascript:void();">
-<input type="button" name="crl" onClick="ConvResultLarger()" value="Larger" />
+<input type="button" name="crl" onClick="ConvResultSize(1)" value="Larger" />
+<input type="button" name="crl" onClick="ConvResultSize(-1)" value="Smaller" />
 </form>
 
 <h2>About this</h2>
