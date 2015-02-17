@@ -21,7 +21,11 @@ OptionParser.new do |opt|
     urg.setType('Cangjie')
     urg.setModifier('Traditional')
   end
-  opt.on('-s', '--simplified', 'Modify to simplified Chinese') do
+  opt.on('--cangjie-radical', 'Get CangJie with Radical') do
+    urg.setType('CangjieRadical')
+    urg.setModifier('Traditional')
+  end
+   opt.on('-s', '--simplified', 'Modify to simplified Chinese') do
     urg.setModifier('Simplified')
   end
   opt.on('-t', '--traditional', 'Modify to Traditional Chinese') do
