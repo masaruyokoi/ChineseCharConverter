@@ -33,4 +33,22 @@ mode=html
 modifier=Simplified
 _END_
 
+echo "Simplified -> Traditional, Cangjie, brackets"
+./print_unihan_reading.cgi << _END_
+txt=%e4%b8%ad%e5%8d%8e%e4%ba%ba%e6%b0%91%e5%85%b1%e5%92%8c%e5%9b%bd 
+type=Cangjie
+mode=htmlbrackets
+modifier=Traditional
+_END_
+
+echo "Simplified -> Traditional, CangjieRadical, brackets"
+./print_unihan_reading.cgi << _END_
+txt=%e4%b8%ad%e5%8d%8e%e4%ba%ba%e6%b0%91%e5%85%b1%e5%92%8c%e5%9b%bd 
+type=CangjieRadical
+mode=htmlbrackets
+modifier=Traditional
+_END_
+
+
+
 echo 
